@@ -1,7 +1,7 @@
 class Vertex:
-    def __init__(self, node, block_num):
-        self.name = node
-        self.block_num = block_num
+    def __init__(self, node, square_id):
+        self.id = node
+        self.square_id = square_id
         self.adj = {}
 
     def add_neighbor(self, neighbor, weight):
@@ -10,15 +10,15 @@ class Vertex:
     def __str__(self):
         s = ""
         for v in self.adj:
-            s += self.name + " --(" + str(self.adj[v]) + ")--> " + v.name + "\n"
+            s += self.id + " --(" + str(self.adj[v]) + ")--> " + v.id + "\n"
         return s
 
 class Graph:
     def __init__(self):
         self.nodes = {}
 
-    def add_node(self, node, block_num):
-        self.nodes[node] = Vertex(node, block_num)
+    def add_node(self, node, square_id):
+        self.nodes[node] = Vertex(node, square_id)
 
     def add_edge(self, src, dst, weight):
         self.nodes[src].add_neighbor(self.nodes[dst], weight)
