@@ -1,35 +1,49 @@
+import sys
 from graph import * 
-from random import random
 
-def rand():
-    return int(random() * 11 + 1)
+def create_graph(graph, filename):
+    f = open(filename, "r")
+    lines = f.readlines()
+    count_hash = 0
+    path_endpoints = []
 
-g = { "a" : ["c"],
-      "b" : ["c", "e"],
-      "c" : ["a", "b", "d", "e"],
-      "d" : ["c"],
-      "e" : ["c", "b"],
-      "f" : []
-    }
+    for line in lines:
+        # Track when we reach a new section
+        if line[0] == "#":
+            count_hash += 1
+            continue
 
-graph = Graph()
+        # Before node section
+        if count_hash < 2:
+            continue
 
-graph.add_node("a", rand())
-graph.add_node("b", rand())
-graph.add_node("c", rand())
-graph.add_node("d", rand())
-graph.add_node("e", rand())
-graph.add_node("f", rand())
+        # Node section
+        elif count_hash == 2:
+            vals = line.lstrip().rstrip().split(",")
+            if len(vals) == 2:
+                graph.add_node(str(vals[0]), vals[1])
+           
+        # Edge Section
+        elif count_hash == 4:
+            vals = line.lstrip().rstrip().split(",")
+            if len(vals) == 3:
+                graph.add_edge(str(vals[0]), vals[1], vals[2])
 
-graph.add_edge("a", "c", rand())
+        if count_hash == 5:
+            vals = line.lstrip().rstrip().split(",")
+            if len(vals) == 2:
+                path_endpoints.append(str(vals[1]))
 
-graph.add_edge("b", "c", rand())
-graph.add_edge("b", "e", rand())
+    if count_hash != 5:
+        print("Error: Unable to create graph")
+        return None 
 
-graph.add_edge("c", "d", rand())
-graph.add_edge("c", "e", rand())
+    return path_endpoints
 
-graph.add_edge("d", "e", rand())
-
-print(graph)
-
+if __name__ == "__main__":
+    if len(sys.argv) < 2: 
+        print("Error: Incorrect arguments\nMust provide filename of graph")
+    else:
+        graph = Graph()
+        create_graph(graph, sys.argv[1])
+        print(graph)
