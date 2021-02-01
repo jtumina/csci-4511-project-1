@@ -1,7 +1,7 @@
 import sys
 from graph import * 
 
-def create_graph(graph, filename):
+def populate_graph(graph, filename):
     f = open(filename, "r")
     lines = f.readlines()
     count_hash = 0
@@ -36,14 +36,15 @@ def create_graph(graph, filename):
 
     if count_hash != 5:
         print("Error: Unable to create graph")
-        return None 
-
-    return path_endpoints
+        return None
+    else:
+        return path_endpoints
 
 if __name__ == "__main__":
     if len(sys.argv) < 2: 
-        print("Error: Incorrect arguments\nMust provide filename of graph")
-    else:
-        graph = Graph()
-        create_graph(graph, sys.argv[1])
-        print(graph)
+        sys.exit("Incorrect arguments. Must provide filename of graph data.")
+
+    graph = Graph()
+    path_endpoints = populate_graph(graph, sys.argv[1])
+    path = graph.dijkstra_uniformed_search(path_endpoints[0], path_endpoints[1])
+    print(path)
