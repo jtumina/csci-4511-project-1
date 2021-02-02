@@ -38,6 +38,14 @@ class Graph:
             s += str(self.nodes[v])
         return s
 
+    def decrease_priority(queue, v, new_prio):
+        for i in range(0, len(queue)):
+            if queue[i][1] == v.id:
+                queue[i] = (new_prio, v.id, v) 
+                return True
+
+        return False
+
     def dijkstra_uniformed_search(self, src, dst):
         prev = {}
         dist = {}
@@ -68,7 +76,8 @@ class Graph:
                 if new_path < dist[v]:
                     dist[v] = new_path
                     prev[v] = u
-                    # Decrease u's priority
+                    Graph.decrease_priority(q, u, new_path)
+                    print(q)
 
         # Construct the shortest path between src and dst
         path = []
