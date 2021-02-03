@@ -61,8 +61,8 @@ class Graph:
                 prev[v] = None
 
             # Each element of the queuque is a 3 tuple.
-            # The vertex id is neccessary to allow heapq to properly sort when
-            # multiple elementes share the same priority.
+            # The vertex id is neccessary to allow heapq to properly sort 
+            # when multiple elementes share the same priority.
             heapq.heappush(q, (dist[v], v.id, v))
 
         while q:
@@ -71,19 +71,21 @@ class Graph:
 
             # For each neighbor of v, check if there's a shorter path
             for u in v.adj: 
-                new_path = dist[u] + float(v.adj[u])
+                new_path = dist[v] + float(u.adj[v])
 
-                if new_path < dist[v]:
-                    dist[v] = new_path
-                    prev[v] = u
+                if new_path < dist[u]:
+                    dist[u] = new_path
+                    prev[u] = v
                     Graph.decrease_priority(q, u, new_path)
-                    print(q)
 
         # Construct the shortest path between src and dst
         path = []
         v = self.nodes[dst]
+        path.append(v.id)
         while v.id != src:
             v = prev[v]
             path.append(v.id)
+
+        path.reverse() 
 
         return path
