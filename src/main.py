@@ -1,5 +1,6 @@
 import sys
 from graph import * 
+import time
 
 def populate_graph(graph, filename):
     f = open(filename, "r")
@@ -46,5 +47,20 @@ if __name__ == "__main__":
 
     graph = Graph()
     path_endpoints = populate_graph(graph, sys.argv[1])
-    path = graph.dijkstra_uniformed_search(path_endpoints[0], path_endpoints[1])
-    print(path)
+
+    n = 100000
+
+    # Run uniformed search n times
+    t_sum = 0
+    for _ in range(n):
+        t_start = time.time()
+        path = graph.dijkstra_uniformed_search \
+            (path_endpoints[0], path_endpoints[1])
+        t_sum += time.time() - t_start
+  
+    # Get average time from n iterations, convert to milliseconds 
+    t_uniformed = t_sum / n * 1000 
+
+    print("Uniformed search using Dijkstra's algorithm:\n" \
+            + "Shortest path: " + str(path) \
+            + "\nAverage time over " + str(n) + " iterations: " + str(t_uniformed) + "ms")
