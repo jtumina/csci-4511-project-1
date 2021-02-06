@@ -66,7 +66,6 @@ if __name__ == "__main__":
     # Get average time from n iterations, convert to milliseconds 
     t_uninformed = t_sum / n * 1000 
 
-    """
     # Informed search
     t_sum = 0
     for _ in range(n):
@@ -81,9 +80,6 @@ if __name__ == "__main__":
   
     # Get average time from n iterations, convert to milliseconds 
     t_informed = t_sum / n * 1000 
-    """
-    # DELETE AFTER A* IS IMPLEMENTED
-    ret_informed = 1
 
     if ret_uninformed and ret_informed:
         print("Uninformed search using Dijkstra's algorithm:" \
@@ -91,13 +87,11 @@ if __name__ == "__main__":
                 + "\nLength: " + str(ret_uninformed["path_length"]) \
                 + "\nAverage time over " + str(n) + " iterations: " \
                 + str(t_uninformed) + " ms")
-        """
-        print("Informed search using A* search algorithm:" \
+        print("\nInformed search using A* search algorithm:" \
                 + "\nShortest path: " + str(ret_informed["path"]) \
                 + "\nLength: " + str(ret_informed["path_length"]) \
                 + "\nAverage time over " + str(n) + " iterations: " \
                 + str(t_informed) + " ms")
-        """
     else:
         print("Error: Either soure or destination is not in graph")
 
