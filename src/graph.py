@@ -46,7 +46,7 @@ class Graph:
 
         return False
 
-    def dijkstra_uniformed_search(self, src, dst):
+    def dijkstra_uninformed_search(self, src, dst):
         # Check if src and dst exist in graph
         if src not in self.nodes or dst not in self.nodes:
             return None
@@ -64,7 +64,7 @@ class Graph:
                 dist[v] = math.inf
                 prev[v] = None
 
-            # Each element of the queuque is a 3 tuple.
+            # Each element of the queue is a 3 tuple.
             # The vertex id is neccessary to allow heapq to properly sort 
             # when multiple elementes share the same priority.
             heapq.heappush(q, (dist[v], v.id, v))
@@ -99,3 +99,6 @@ class Graph:
         ret = {"path": path, "path_length": path_length}
 
         return ret 
+
+    def a_star_informed_search(self, dst, src):
+        return None
