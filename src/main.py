@@ -48,19 +48,29 @@ if __name__ == "__main__":
     graph = Graph()
     path_endpoints = populate_graph(graph, sys.argv[1])
 
-    n = 100000
-
     # Run uniformed search n times
+    n = 1000
     t_sum = 0
+
     for _ in range(n):
         t_start = time.time()
-        path = graph.dijkstra_uniformed_search \
+        ret = graph.dijkstra_uniformed_search \
             (path_endpoints[0], path_endpoints[1])
         t_sum += time.time() - t_start
+
+        # If endpoints are not in graph, break
+        if ret == None:
+            break
   
     # Get average time from n iterations, convert to milliseconds 
     t_uniformed = t_sum / n * 1000 
 
-    print("Uniformed search using Dijkstra's algorithm:\n" \
-            + "Shortest path: " + str(path) \
-            + "\nAverage time over " + str(n) + " iterations: " + str(t_uniformed) + "ms")
+    if ret:
+        print("Uniformed search using Dijkstra's algorithm:" \
+                + "\nShortest path: " + str(ret["path"]) \
+                + "\nLength: " + str(ret["path_length"]) \
+                + "\nAverage time over " + str(n) + " iterations: " \
+                + str(t_uniformed) + " ms")
+    else:
+        print("Error: Either soure or destination is not in graph")
+

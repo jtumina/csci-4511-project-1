@@ -47,6 +47,10 @@ class Graph:
         return False
 
     def dijkstra_uniformed_search(self, src, dst):
+        # Check if src and dst exist in graph
+        if src not in self.nodes or dst not in self.nodes:
+            return None
+
         prev = {}
         dist = {}
         dist[self.nodes[src]] = 0
@@ -80,12 +84,18 @@ class Graph:
 
         # Construct the shortest path between src and dst
         path = []
+        path_length = 0
+
         v = self.nodes[dst]
         path.append(v.id)
+
         while v.id != src:
-            v = prev[v]
-            path.append(v.id)
+            u = prev[v]
+            path.append(u.id)
+            path_length += int(v.adj[u])
+            v = u
 
         path.reverse() 
+        ret = {"path": path, "path_length": path_length}
 
-        return path
+        return ret 
