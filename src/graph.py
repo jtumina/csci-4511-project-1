@@ -57,8 +57,9 @@ class Graph:
         if src not in self.nodes or dst not in self.nodes:
             return None
 
-        # Get the vertex object of src
+        # Get the vertex object of src and dst
         src = self.nodes[src]
+        dst = self.nodes[dst]
 
         prev = {}
         prev[src] = None
@@ -79,8 +80,9 @@ class Graph:
             v = heapq.heappop(frontier)[2]
             num_explored_nodes += 1
 
-            if v.id == dst:
+            if v.id == dst.id:
                 found = True
+                break
 
             visited.append(v)
 
@@ -108,18 +110,19 @@ class Graph:
         Compute heuristic using manhattan distance. One's place of square_id
         represents x coordinate while ten's place represents y coordinate.
         """
-        dx = abs(dst.square_id % 10 - v.square_id % 10)
-        dy = abs(dst.square_id // 10 - v.square_id // 10)
+        dx = dst.square_id % 10 - v.square_id % 10
+        dy = dst.square_id // 10 - v.square_id // 10
 
-        return (dx**2 + dy**2)**0.5
+        return dx + dy
 
     def a_star_informed_search(self, src, dst):
         # Check if src and dst exist in graph
         if src not in self.nodes or dst not in self.nodes:
             return None
 
-        # Get the vertex object of src
+        # Get the vertex object of src and dst
         src = self.nodes[src]
+        dst = self.nodes[dst]
 
         prev = {} # Map to track a nodes previous in the path
         prev[src] = None
@@ -141,9 +144,10 @@ class Graph:
             # Get the node with least cost
             v = heapq.heappop(frontier)[2]
             num_explored_nodes += 1
-
-            if v.id == dst:
+            
+            if v.id == dst.id:
                 found = True
+                break
         
             visited.append(v)
 
@@ -157,7 +161,7 @@ class Graph:
 
                     # If decrease_priority returns False, u is not in frontier 
                     # so it must be added if it has not been visited
-                    priority = new_cost + self.heuristic(u, self.nodes[dst])
+                    priority = new_cost + self.heuristic(u, dst)
                     in_frontier = Graph.decrease_priority(frontier, u, priority)
                     if not in_frontier and u not in visited:
                         prev[u] = v
@@ -173,10 +177,10 @@ class Graph:
         path = []
         path_length = 0
 
-        v = self.nodes[dst]
+        v = dst
         path.append(v.id)
 
-        while prev[v] and v.id != src:
+        while prev[v] and v.id != src.id:
             u = prev[v]
             path.append(u.id)
             path_length += int(v.adj[u])
