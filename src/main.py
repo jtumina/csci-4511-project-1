@@ -55,7 +55,7 @@ if __name__ == "__main__":
     t_sum = 0
     for _ in range(n):
         t_start = time.time()
-        ret_uninformed = graph.dijkstra_uninformed_search \
+        ret_uninformed = graph.ucs_uninformed_search \
             (path_endpoints[0], path_endpoints[1])
         t_sum += time.time() - t_start
 
@@ -65,7 +65,7 @@ if __name__ == "__main__":
   
     # Get average time from n iterations, convert to milliseconds 
     t_uninformed = t_sum / n * 1000 
-
+    
     # Informed search
     t_sum = 0
     for _ in range(n):
@@ -80,16 +80,20 @@ if __name__ == "__main__":
   
     # Get average time from n iterations, convert to milliseconds 
     t_informed = t_sum / n * 1000 
-
+    
     if ret_uninformed and ret_informed:
-        print("Uninformed search using Dijkstra's algorithm:" \
+        print("Uninformed search using Uniform Cost Search:" \
                 + "\nShortest path: " + str(ret_uninformed["path"]) \
                 + "\nLength: " + str(ret_uninformed["path_length"]) \
+                + "\nNumber of nodes explored: " \
+                + str(ret_uninformed["num_explored_nodes"]) \
                 + "\nAverage time over " + str(n) + " iterations: " \
                 + str(t_uninformed) + " ms")
         print("\nInformed search using A* search algorithm:" \
                 + "\nShortest path: " + str(ret_informed["path"]) \
                 + "\nLength: " + str(ret_informed["path_length"]) \
+                + "\nNumber of nodes explored: " \
+                + str(ret_informed["num_explored_nodes"]) \
                 + "\nAverage time over " + str(n) + " iterations: " \
                 + str(t_informed) + " ms")
     else:
