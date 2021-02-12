@@ -109,11 +109,14 @@ class Graph:
         """
         Compute heuristic using manhattan distance. One's place of square_id
         represents x coordinate while ten's place represents y coordinate.
+        Multiplying by 100 gives more range to the heuristic and usally
+        produces quicker results. Subtracting by 100 also ensures that the
+        heuristic will be admisable by constraining it to a square size.
         """
-        dx = dst.square_id % 10 - v.square_id % 10
-        dy = dst.square_id // 10 - v.square_id // 10
+        dx = abs(dst.square_id % 10 - v.square_id % 10)
+        dy = abs(dst.square_id // 10 - v.square_id // 10)
 
-        return dx + dy
+        return 100 * (dx + dy) - 100
 
     def a_star_informed_search(self, src, dst):
         # Check if src and dst exist in graph
