@@ -12,7 +12,7 @@ For informed search, I implemented **A\* Search**. In this algorithm nodes are s
 ## Usage
 ##### Running the script:
 ```
-python3 src/main.py "<name of file with graph data>"
+python3 src/main.py "<path/to/file/with/graph/data>"
 ```
 #### Formatting the graph data files:
 Text files containing the data for the graph *must* be formatted as follows:
